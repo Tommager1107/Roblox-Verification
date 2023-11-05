@@ -6,7 +6,7 @@
     <title>Discord Verification</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f0f0f0;
             margin: 0;
             display: flex;
@@ -29,6 +29,39 @@
 
         #avatar img {
             border-radius: 50%;
+            max-width: 100px;
+        }
+
+        #team-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        #team-popup h2 {
+            margin-bottom: 10px;
+        }
+
+        #invite-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #7289DA;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #invite-button:hover {
+            background-color: #677bc4;
         }
     </style>
 </head>
@@ -42,6 +75,16 @@
         <label for="usernameInput">Discord Username:</label>
         <input type="text" id="usernameInput" placeholder="Enter your Discord username">
         <button onclick="verify()">Verify</button>
+        <button onclick="showTeamPopup()">Team</button>
+        <button id="invite-button" onclick="openInviteLink()">Invite</button>
+    </div>
+
+    <div id="team-popup">
+        <h2>Team Members</h2>
+        <p>Member 1</p>
+        <p>Member 2</p>
+        <p>Member 3</p>
+        <button onclick="closeTeamPopup()">Close</button>
     </div>
 
     <script>
@@ -54,33 +97,42 @@
                 return;
             }
 
-            // Replace 'YOUR_BOT_TOKEN' with your actual bot token
-            const botToken = 'MTE3MDMxMzQwODk1NzEyODc2NQ.GPjssl.-2tov1_YbvB4Iq_BqesbCGJwWX0tIRcD-2Qv0A';
+            // This is a placeholder. In a real implementation, you would handle the server-side logic securely.
+            const botToken = 'YOUR_PLACEHOLDER_BOT_TOKEN';
 
-            fetch(`https://discord.com/api/users/@me`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bot ${botToken}`
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                const avatar = document.getElementById('avatar');
-                avatar.innerHTML = `<img src="https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png" alt="Avatar">`;
+            // Simulate the verification process (this does not perform any real Discord API requests)
+            const data = {
+                id: '123456789012345678',
+                avatar: 'abc123',
+                username: 'ExampleUser',
+                discriminator: '1234'
+            };
 
-                const usernameElement = document.getElementById('username');
-                usernameElement.innerText = `Discord Username: ${data.username}#${data.discriminator}`;
+            const avatar = document.getElementById('avatar');
+            avatar.innerHTML = `<img src="https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png" alt="Avatar">`;
 
-                // Assume verification process here (e.g., give the user a role)
-                alert('Verification successful!');
+            const usernameElement = document.getElementById('username');
+            usernameElement.innerText = `Discord Username: ${data.username}#${data.discriminator}`;
 
-                // Reset the input
-                usernameInput.value = '';
-            })
-            .catch(error => {
-                console.error('Error fetching Discord user data:', error);
-                alert('Error fetching Discord user data. Please try again later.');
-            });
+            // Assume verification process here (e.g., give the user a role)
+            alert('Verification successful!');
+
+            // Reset the input
+            usernameInput.value = '';
+        }
+
+        function showTeamPopup() {
+            const teamPopup = document.getElementById('team-popup');
+            teamPopup.style.display = 'block';
+        }
+
+        function closeTeamPopup() {
+            const teamPopup = document.getElementById('team-popup');
+            teamPopup.style.display = 'none';
+        }
+
+        function openInviteLink() {
+            window.open('https://discord.com/invite/your-invite-code', '_blank');
         }
     </script>
 </body>
